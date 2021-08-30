@@ -43,7 +43,7 @@
     with_items:
     - "vpc-demo-instance1 --zone us-central1-b"
     - "vpc-demo-instance2 --zone us-east1-b"
-    - "on-prem-instance1 --zone us-central-1"
+    - "on-prem-instance1 --zone us-central1-a"
 
   - name: Delete firewall rules
     tags: ['delete-fw-rules']
