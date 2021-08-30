@@ -1,0 +1,71 @@
+---
+- name: Configuring Google Cloud HA VPN
+  hosts: localhost
+  connection: local
+  gather_vars: yes
+
+  tasks:
+  - name: Delete VPN tunnels
+    tags: ['delete-vpn-tunnels']
+    command: "gcloud compute vpn-tunnels delete {{ item }}"
+    with_items:
+      - "on-prem-tunnel0 --region us-central1"
+      - "delete vpc-demo-tunnel1 --region us-central1"
+      - "on-prem-tunnel1 --region us-central1"
+
+  - name: Remove BGP peering
+    tags: ['remove-bgp-peering']
+    command: "gcloud compute routers remove-bgp-peer {{ item }}"
+    with_items:
+    - "vpc-demo-router1 --peer-name bgp-on-prem-tunnel0 --region us-central1"
+    - "vpc-demo-router1 --peer-name bgp-on-prem-tunnel1 --region us-central1"
+    - "vpc-demo-router1 --peer-name bgp-vpc-demo-tunnel0 --region us-central1"
+    - "vpc-demo-router1 --peer-name bgp-vpc-demo-tunnel1 --region us-central1"
+
+  - name: Delete cloud routers
+    tags: ['delete-cloud-routers']
+    command: "gcloud compute routers delete {{ item }}"
+    with_items:
+    - "on-prem-router1 --region us-central1"
+    - "vpc-demo-router1 --region us-central1"
+
+  - name: Delete VPN gateways
+    tags: ['delete-vpn-gateways']
+    command: "gcloud beta compute vpn-gateways delete {{ item }}"
+    with_items:
+    - "vpc-demo-vpn-gw1 --region us-central1"
+    - "on-prem-vpn-gw1 --region us-central1"
+
+  - name: Delete instances
+    tags: ['delete-instances']
+    command: "gcloud compute instances delete {{ item }}"
+    with_items:
+    - "vpc-demo-instance1 --zone us-central1-b"
+    - "vpc-demo-instance2 --zone us-east1-b"
+    - "on-prem-instance1 --zone us-central-1"
+
+  - name: Delete firewall rules
+    tags: ['delete-fw-rules']
+    command: "gcloud beta compute firewall-rules delete {{ item }}"
+    with_items:
+    - "vpc-demo-allow-internal"
+    - "on-prem-allow-subnets-from-vpc-demo"
+    - "on-prem-allow-ssh-icmp"
+    - "on-prem-allow-internal"
+    - "vpc-demo-allow-subnets-from-on-prem"
+    - "vpc-demo-allow-ssh-icmp"
+
+  - name: Delete subnets
+    tags: ['delete-subnets']
+    command: "gcloud beta compute networks subnets delete {{ item }}"
+    with_items:
+    - "vpc-demo-subnet1 --region us-central1"
+    - "vpc-demo-subnet2 --region us-east1"
+    - "on-prem-subnet1 --region us-central1"
+
+  - name: Delete VPC
+    tags: ['delete-vpc']
+    command: "gcloud compute networks delete {{ item }}"
+    with_items:
+    - "vpc-demo"
+    - "on-prem"
