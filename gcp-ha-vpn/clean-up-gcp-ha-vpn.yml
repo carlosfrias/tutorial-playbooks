@@ -7,7 +7,7 @@
   tasks:
   - name: Delete VPN tunnels
     tags: ['delete-vpn-tunnels']
-    command: "gcloud compute vpn-tunnels delete {{ item }}"
+    command: "gcloud compute vpn-tunnels delete -q {{ item }}"
     with_items:
       - "on-prem-tunnel0 --region us-central1"
       - "delete vpc-demo-tunnel1 --region us-central1"
