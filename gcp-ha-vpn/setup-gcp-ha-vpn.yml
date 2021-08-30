@@ -41,7 +41,7 @@
     command: "{{ item }}"
     with_items:
     - "gcloud compute routers create vpc-demo-router1 --region us-central1 --network vpc-demo --asn 65001"
-    - "gcloud compute routers create on-prem-router1 --region us-central1 --network onprem --asn 65002"
+    - "gcloud compute routers create on-prem-router1 --region us-central1 --network on-prem --asn 65002"
 
   - name: Create two VPN tunnels
     tags: ['create-vpn-tunnels']
