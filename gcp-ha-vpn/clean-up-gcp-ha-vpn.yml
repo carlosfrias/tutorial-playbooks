@@ -2,7 +2,7 @@
 - name: Configuring Google Cloud HA VPN
   hosts: localhost
   connection: local
-  gather_vars: yes
+  gather_facts: yes
 
   tasks:
   - name: Delete VPN tunnels
