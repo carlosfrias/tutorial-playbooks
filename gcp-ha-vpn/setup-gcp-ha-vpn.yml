@@ -55,7 +55,7 @@
   - name: Create Border Gatway Protocol (BGP) peering for each tunnel
     tags: ['create-bpg-peering-for-each-tunnel']
     command: "{{ items }}"
-    with_items
+    with_items:
     - "gcloud compute routers add-interface vpc-demo-router1 --interface-name if-tunnel0-to-on-prem --ip-address 169.254.0.1 --mask-length 30 --vpn-tunnel vpc-demo-tunnel10 --region us-central1"
     - "gcloud compute routers add-bgp-peer vpc-demo-router1 --peer-name bgp-on-prem-tunnel0 --interface if-tunnel0-to-on-prem --peer-ip-address 169.254.0.2 --peer-asn 65002 --region us-central1"
     - "gcloud compute routers add-interface vpc-demo-router1 --interface-name if-tunnel1-to-on-prem --ip-address 169.254.1.1 --mask-length 30 --vpn-tunnel vpc-demo-tunnel1 --region us-central1"
