@@ -9,8 +9,9 @@
     tags: ['delete-vpn-tunnels']
     command: "gcloud compute vpn-tunnels delete -q {{ item }}"
     with_items:
+      - "vpc-demo-tunnel0 --region us-central1"
+      - "vpc-demo-tunnel1 --region us-central1"
       - "on-prem-tunnel0 --region us-central1"
-      - "delete vpc-demo-tunnel1 --region us-central1"
       - "on-prem-tunnel1 --region us-central1"
 
   - name: Remove BGP peering
@@ -24,7 +25,7 @@
 
   - name: Delete cloud routers
     tags: ['delete-cloud-routers']
-    command: "gcloud compute routers delete {{ item }}"
+    command: "gcloud compute routers delete -q {{ item }}"
     with_items:
     - "on-prem-router1 --region us-central1"
     - "vpc-demo-router1 --region us-central1"
