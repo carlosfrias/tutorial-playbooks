@@ -52,8 +52,8 @@
     - "gcloud beta compute vpn-tunnels create on-prem-tunnel0 --peer-gcp-gateway vpc-demo-vpn-gw1 --region us-central1 --ike-version 2 --shared-secret shared_secret --router on-prem-router1 --vpn-gateway on-prem-vpn-gw1 --interface 0"
     - "gcloud beta compute vpn-tunnels create on-prem-tunnel1 --peer-gcp-gateway vpc-demo-vpn-gw1 --region us-central1 --ike-version 2 --shared-secret shared_secret --router on-prem-router1 --vpn-gateway on-prem-vpn-gw1 --interface 1"
 
-  - name: Create Border Gatway Protocol (BGP) peering for each tunnel
-    tags: ['create-bpg-peer']
+  - name: Create Border Gatway Protocol (BGP) peer for each tunnel
+    tags: ["create-bgp-peer"]
     command: "{{ items }}"
     with_items:
     - "gcloud compute routers add-interface vpc-demo-router1 --interface-name if-tunnel0-to-on-prem --ip-address 169.254.0.1 --mask-length 30 --vpn-tunnel vpc-demo-tunnel10 --region us-central1"
