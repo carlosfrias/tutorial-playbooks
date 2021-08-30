@@ -94,6 +94,7 @@
     command: gcloud compute ssh on-prem-instance1 --zone us-central1-a -q --command "ping -c 4 10.1.1.2"
 
   - name: Global routing with VPN
+    tags: ['global-routing']
     command: "{{ item }}"
     with_items:
     - "gcloud compute networks update vpc-demo --bgp-routing-mode GLOBAL"
@@ -101,6 +102,7 @@
     - "gcloud compute ssh on-prem-instance1 --zone us-central1-a --command 'ping -c 4 10.2.1.2'"
 
   - name: Verify and test configuration of HA VPN tunnels
+    tags: ['verify-test-ha-vpn-tunnels']
     command: "{{ item }}"
     with_items:
     - "gcloud compute vpn-tunnels delete vpc-demo-tunnel0 --region us-central1 --q"
